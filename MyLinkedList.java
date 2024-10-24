@@ -6,18 +6,22 @@ public class MyLinkedList
     public MyLinkedList() {
         
     }
-
-    private moveTo(ListNode temp, int idx) {
+ 
+    private ListNode moveTo(ListNode temp, int idx) {
         for(int i = 0; i < idx; i++) {
+            // System.out.println(temp.getValue());
             temp = temp.getNext();
         }
+        return temp;
     }
 
 
-    private moveToEnd(ListNode temp) {
-        while (temp.getValue() != null) {
+    private ListNode moveToEnd(ListNode temp) {
+        while (temp.getNext() != null) {
+            // System.out.println(temp.getValue());
             temp = temp.getNext();
         }
+        return temp;
     }
 
     public int size() {
@@ -33,9 +37,11 @@ public class MyLinkedList
             head = new ListNode(obj, null);
         } else {
             pointer = head;
-            moveToEnd(pointer);
-            pointer.setValue(new ListNode(obj, null));
+            pointer = moveToEnd(pointer);
+            //System.out.println(pointer.getValue());
+            pointer.setNext(new ListNode(obj, null));
         }
+        size++;
         return true;
     }
 
@@ -45,6 +51,7 @@ public class MyLinkedList
         } else {
             head = new ListNode(obj, head);
         }
+        size++;
         return true;
 
     }
@@ -56,7 +63,7 @@ public class MyLinkedList
 
     public Object set(int i, Object obj) {
         pointer = head;
-        moveTo(pointer, i);
+        pointer = moveTo(pointer, i);
         Object prev = pointer.getValue();
         pointer.setValue(obj);
         return prev;
@@ -64,21 +71,23 @@ public class MyLinkedList
 
     public Object get(int i) {
         pointer = head;
-        moveTo(pointer, i);
+        pointer = moveTo(pointer, i);
         return pointer.getValue();
     }
 
     public Object remove(int i) {
-        pointer = head;
-        moveTo(pointer, i);
-        Object prev = pointer.getValue();
-        moveTo(pointer, i+1);
+        Object prev = get(i);
         
+        pointer = head;
+        pointer = moveTo(pointer, i+1);
+        //System.out.println(pointer.getValue());
+        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHH!!!!!!!");
         ListNode half2 = pointer;
 
+
         pointer = head;
-        moveTo(pointer, i-1);
-        pointer = half2;
+        pointer = moveTo(pointer, i-1);
+        pointer.setNext(half2);
         
         size--;
         
@@ -94,8 +103,27 @@ public class MyLinkedList
     }
 
     public Object removeLast() {
-        
+        pointer = head;
+        pointer = moveToEnd(pointer);
+        Object prev = pointer.getValue();
+        pointer = null;
+
+        size--;
+        return prev;
     }
+
+    public String toString() {
+        String result = "";
+        pointer = head;
+        int i = 0;
+        while (pointer != null) {
+            result += i + ": " + pointer.getValue().toString() + "\n";
+            pointer = pointer.getNext();
+            i++;
+        }
+        return result;
+    }
+
 
 
 }
