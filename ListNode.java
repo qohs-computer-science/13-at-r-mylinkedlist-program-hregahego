@@ -9,7 +9,7 @@ public class ListNode
 	private ListNode next;
 
 	public ListNode(Object initValue, ListNode initNext)
-	{
+	{ 
 		value = initValue;
 		next = initNext;
 	} // return constructor
